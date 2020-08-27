@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON to String Converter</title>
+  
+  <style>
+    textarea {
+      font-family: 'Courier New', Courier, monospace;
+      width: 100%;
+      resize: vertical;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      margin-top: 110px;
+    }
+    p {
+      font-weight: bold;
+      width: 100%;
+      text-align: center;
+      font-size: 20px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+  <p style="font-size: 30px;">JSON to String Converter</p>
+  <div style="display: flex; 
+      max-width: 1200px;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+    ">
+    <div style="width: 45%;">
+      <p>JSON</p>
+      <textarea id="id_json" spellcheck="false" rows="20"></textarea>
+    </div>
+    <div style="width: 1%;"></div>
+    <div style="width: 8%;">
+      <button onclick="convertToString()">To String</br>>></button>
+      <button onclick="conmvertToJson()">To JSON</br><<</button>
+    </div>
+    <div style="width: 1%;"></div>
+    <div style="width: 45%;">
+      <p>String</p>
+      <textarea id="id_string" spellcheck="false" rows="20"></textarea>
+    </div>
+
+  </div>
+  <p style="font-weight: normal; font-style: italic;" id="id_note">JSON '?' equals STRING '+ value +'</p>
+
+
+  <script>
+    // convert String to JSON
+    function convertToString() {
+      let str = ''
+      let jj = document.getElementById('id_json').value.split('')
+      jj.forEach(e => {
+        if (e === `"`) {
+          str += "\\"
+          str += '"'
+        } else if (e === '?') {
+          str += `+ value +`
+        } else {
+          str += e
+        }
+      })
+
+      document.getElementById('id_string').value = str
+    }
+
+    // convert JSON to String
+    function conmvertToJson() {
+      let str = ''
+      let quotation = ['', '']    // 2
+      let value = ['', '', '', '', '', '', '', '', '']    // 9
+
+      let ss = document.getElementById('id_string').value.split('')
+      ss.forEach(e => {
+        str += e
+        quotation[0] = quotation[1]
+        quotation[1] = e
+
+        for (i = 1; i <= 8; i++) {
+          value[i - 1] = value[i]
+        }
+        value[8] = e
+
+        if (quotation.join('') == '\\"')  {
+          str = str.substring(0, str.length - 2) + '"'
+        }
+
+        if (value.join('') == '+ value +') {
+          console.log('ada')
+          str = str.substring(0, str.length - 9) + '?'
+        }
+
+        document.getElementById('id_json').value = str
+      })
+    }
+  </script>
+</body>
+</html>
