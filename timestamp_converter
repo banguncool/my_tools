@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timestamp Converter</title>
+  <style>
+    input , select , button {
+      font-size: 20px;
+      padding: 10px;
+    }
+
+    .short {
+      width: 100px;
+    }
+  </style>
+</head>
+<body style="font-size: 20px;">
+  <center>
+    <p>Insert timstamp (milliseconds format)</p>
+    <input id="id_input" type="number" placeholder="Timestamp (milliseconds)">
+    <button onclick="process()">Submit</button>
+    
+    <p id="id_output">Output: </p>
+    <br>
+    <p style="margin-bottom: 0;">Insert date</p>
+	<button onclick="nowTimestamp()">Date Now</button>
+    <table>
+      <tr>
+        <td><input id="hour" class="short" type="number" placeholder="Hours"></td>
+        <td><p>:</p></td>
+        <td><input id="minute" class="short" type="number" placeholder="Minutes"></td>
+        <td><p>:</p></td>
+        <td><input id="second" class="short" type="number" placeholder="Seconds"></td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <td><input id="date" type="number" title="date" placeholder="Date"></td>
+        <td>
+          <select name="" id="month">
+            <option value="0">January</option>
+            <option value="1">February</option>
+            <option value="2">March</option>
+            <option value="3">April</option>
+            <option value="4">May</option>
+            <option value="5">June</option>
+            <option value="6">July</option>
+            <option value="7">August</option>
+            <option value="8">September</option>
+            <option value="9">October</option>
+            <option value="10">November</option>
+            <option value="11">December</option>
+          </select>
+        </td>
+        <td><input id="year" type="number" title="full year" placeholder="Year"></td>
+      </tr>
+    </table>
+    <br>
+    <button onclick="dateToTimestamp()">Submit</button>	
+    <br>
+    <table>
+      <tr>
+        <td><p>Output</p></td>
+        <td><input id="output_timestamp" type="number"></td>
+      </tr>
+    </table>
+  </center>
+
+  <script>
+    // Timestamp to date ===========================================================================
+    let month = ['Januari', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+    setTimeout(() => {
+      document.getElementById('id_input').focus()
+    }, 500);
+
+    document.getElementById('id_input').addEventListener('keydown', e => {
+      if (e.code == 'Enter') {
+        process()
+      }
+    })
+
+    function process() {
+      let ii = document.getElementById('id_input').value
+      let dd = new Date(Number(ii))
+
+      let text = ('00' + dd.getDate()).slice(-2) + ' ' + 
+      month[dd.getMonth()] + ' ' + 
+      dd.getFullYear() + ' - ' + 
+      ('00' + dd.getHours()).slice(-2) + ':' + 
+      ('00' + dd.getMinutes()).slice(-2) + ':' + 
+      ('00' + dd.getSeconds()).slice(-2)
+
+      document.getElementById('id_output').innerHTML = 'Output: ' + text
+    }
+
+    // Date to timestamp ===========================================================================
+      function dateToTimestamp() {
+        let hour = Number(document.getElementById('hour').value)
+        let minute = Number(document.getElementById('minute').value)
+        let second = Number(document.getElementById('second').value)
+
+        let date = Number(document.getElementById('date').value)
+        let month = Number(document.getElementById('month').value)
+        let year = Number(document.getElementById('year').value)
+
+        let timestamp = + new Date(year, month, date, hour, minute, second, 0)
+
+        document.getElementById('output_timestamp').value = timestamp
+      }
+	  
+	  function nowTimestamp() {
+		let t = + new Date()
+		let dd = new Date(t)
+		
+		document.getElementById('hour').value = dd.getHours()
+		document.getElementById('minute').value = dd.getMinutes()
+		document.getElementById('second').value = dd.getSeconds()
+		
+		document.getElementById('date').value = dd.getDate()
+		document.getElementById('month').value = dd.getMonth()
+		document.getElementById('year').value = dd.getFullYear()
+		
+		document.getElementById('output_timestamp').value = t
+	  }
+  </script>
+</body>
+</html>
