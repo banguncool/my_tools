@@ -49,7 +49,7 @@
     </div>
 
   </div>
-  <p style="font-weight: normal; font-style: italic;" id="id_note">JSON '?' equals STRING '+ value +'</p>
+  <p style="font-weight: normal; font-style: italic;" id="id_note">JSON '?' equals STRING '" + val + "'</p>
 
 
   <script>
@@ -62,7 +62,7 @@
           str += "\\"
           str += '"'
         } else if (e === '?') {
-          str += `+ value +`
+          str += `" + val + "`
         } else {
           str += e
         }
@@ -75,7 +75,7 @@
     function conmvertToJson() {
       let str = ''
       let quotation = ['', '']    // 2
-      let value = ['', '', '', '', '', '', '', '', '']    // 9
+      let value = ['', '', '', '', '', '', '', '', '', '', '']    // 11
 
       let ss = document.getElementById('id_string').value.split('')
       ss.forEach(e => {
@@ -83,18 +83,44 @@
         quotation[0] = quotation[1]
         quotation[1] = e
 
-        for (i = 1; i <= 8; i++) {
+        for (i = 1; i <= 10; i++) {
           value[i - 1] = value[i]
         }
-        value[8] = e
+        value[10] = e
 
         if (quotation.join('') == '\\"')  {
           str = str.substring(0, str.length - 2) + '"'
         }
 
-        if (value.join('') == '+ value +') {
-          console.log('ada')
-          str = str.substring(0, str.length - 9) + '?'
+        // let compress = ''
+
+        // value.forEach(f => {
+        //   if (f != ' ') {
+        //     compress += f
+        //     let compressTemp = compress.substring(compress.length - 7, compress.length)
+        //     // console.log(compressTemp)
+        //     if (compressTemp === '"+val+"') {
+        //       compress = ''
+        //       let strTemp = str.split('')
+        //       let count = 0
+        //       console.log(str)
+        //       for (let j = strTemp.length - 1; j > 0; j--) {
+        //         console.log(strTemp[j - 1])
+        //         count++
+        //         if (strTemp[j - 1] == '"') {
+        //           break;
+        //         }
+        //       }
+        //       console.log(count)
+        //       str = str.substring(0, str.length - (count + 1)) + '?'
+        //     }
+        //   }
+        // })
+
+        
+
+        if (value.join('') == '" + val + "') {
+          str = str.substring(0, str.length - 11) + '?'
         }
 
         document.getElementById('id_json').value = str
